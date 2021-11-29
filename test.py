@@ -7,23 +7,25 @@ from selenium.webdriver.common.by import By
 @allure.story("test suit for lab 5")
 def test_language_change(browser):
     browser.get("https://hotline.ua/")
-    lang = browser.find_element(By.CSS_SELECTOR, "span.active.js-change-language").text
-    menu = [elem.text.lower() for elem in browser.find_elements(By.CLASS_NAME, "name")]
-    if lang == "укр":
-        assert "порівняння" in menu
-    else:
-        assert "сравнения" in menu
-    browser.find_element(By.CSS_SELECTOR, 'span[data-tracking-id=global-13]').click()
-    menu = [elem.text.lower() for elem in browser.find_elements(By.CLASS_NAME, "name")]
-    if lang == "укр":
-        assert "сравнения" in menu
-    else:
-        assert "порівняння" in menu
+    with allure.step("language check"):
+        lang = browser.find_element(By.CSS_SELECTOR, "span.active.js-change-language").text
+        menu = [elem.text.lower() for elem in browser.find_elements(By.CLASS_NAME, "name")]
+        if lang == "укр":
+            assert "порівняння" in menu
+        else:
+            assert "сравнения" in menu
+            
+    with allure.step("language switch"):
+        browser.find_element(By.CSS_SELECTOR, 'span[data-tracking-id=global-13]').click()
+        menu = [elem.text.lower() for elem in browser.find_elements(By.CLASS_NAME, "name")]
+        if lang == "укр":
+            assert "сравнения" in menu
+        else:
+            assert "порівняння" in menu
 
 @allure.suite("search by product name")
 @allure.story("test suit for lab 5")
 def test_search_rez_page(browser):
-    browser.get("https://hotline.ua/")
     search_term = "sony"
     with allure.step("find " + search_term):
         browser.find_element(By.ID, "searchbox").send_keys(search_term)
