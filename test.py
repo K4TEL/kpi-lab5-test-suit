@@ -24,7 +24,7 @@ def test_search_rez_page(browser):
         pytest.page.getSearchBox().send_keys(Keys.RETURN)
         
     with allure.step("headline check"):
-        actual_text = pytest.page.getHeadline().text.lower()
+        actual_text = pytest.page.getHeadline()
         expected_text = search_term
         assert actual_text == expected_text 
     
